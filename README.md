@@ -1,3 +1,9 @@
+This Fork
+=========
+
+This fork will combine pidcat with jetpack compose to put the adb logcat into a
+nice browser-based GUI for an even better debugging experience.
+
 PID Cat
 =======
 
