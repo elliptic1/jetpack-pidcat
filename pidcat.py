@@ -27,6 +27,9 @@ import re
 import subprocess
 from subprocess import PIPE
 
+import os
+from http.server import HTTPServer, CGIHTTPRequestHandler
+
 __version__ = '2.1.0'
 
 LOG_LEVELS = 'VDIWEF'
@@ -271,6 +274,21 @@ while True:
     if proc in catchall_package:
       seen_pids = True
       pids.add(pid)
+
+
+class SimpleHTTPRequestHandler(CGIHTTPRequestHandler):
+
+  def do_GET(self):
+    self.send_response(200)
+    self.end_headers()
+    self.wfile.write(b'Hello, world!')
+
+# Make sure the server is created at current directory
+os.chdir('.')
+# Create server object listening the port 1949 
+server_object = HTTPServer(server_address=('', 1949), RequestHandlerClass=SimpleHTTPRequestHandler)
+# Start the web server
+server_object.serve_forever()
 
 while adb.poll() is None:
   try:
